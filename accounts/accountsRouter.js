@@ -19,9 +19,19 @@ router.post("/", validateAccount, (req, res) => {
 });
 
 router.get("/", (req, res) => {
-    const { limit } = req.body || 10;
-    const { sortBy } = req.body || 'id';
-    const { sortDir } = req.body || 'asc';
+    var { limit } = req.body;
+    var { sortBy } = req.body;
+    var { sortDir } = req.body;
+    if(!limit){
+        limit = 10
+    }
+    if(!sortBy){
+        sortBy = 'id'
+    }
+    if(!sortDir){
+        sortDir = 'asc'
+    }
+
   db("accounts").orderBy(sortBy, sortDir).limit(limit)
     .then(accounts => res.status(200).json(accounts))
     .catch(err =>
